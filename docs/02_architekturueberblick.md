@@ -11,13 +11,22 @@ Das Repository ist damit nicht als neutraler Marktvergleich gedacht, sondern als
 ## Empfohlene Rollen der Bausteine
 
 ### LangChain
-LangChain ist die Bibliothek für Modelle, Tools, einfache Agenten und allgemeine Anwendungsbausteine.
+LangChain ist die Bibliothek für Modelle, Tools, einfache Agenten und allgemeine Anwendungsbausteine. Tools werden hier per `@tool`-Decorator oder `StructuredTool` definiert und per `llm.bind_tools()` an Agenten gebunden.
 
 ### LangGraph
-LangGraph ist die Orchestrierungs- und Workflow-Ebene. Hier werden State, Nodes, Edges, Subgraphs, Interrupts und Routing modelliert.
+LangGraph ist die Orchestrierungs- und Workflow-Ebene. Hier werden State (`TypedDict`), Nodes, Edges, Subgraphs, Interrupts und Routing modelliert. Der `ToolNode` aus `langgraph.prebuilt` übernimmt die automatische Ausführung von Tool-Calls.
 
-### LangSmith
-LangSmith dient zur Beobachtung, Auswertung, Fehlersuche und Verbesserung von Agenten und Workflows.
+### Beobachtungsschicht (austauschbar)
+Die Beobachtungsschicht ist eine eigenständige, austauschbare Komponente – kein fester Teil des Kernstacks. Sie dient zur Nachvollziehbarkeit von Workflow-Runs, Debugging und Qualitätsmessung.
+
+**Empfehlung: Langfuse**
+Langfuse ist self-hostable, MIT-lizenziert und deckt Tracing, Evals und Prompt-Management ab. Die LangChain/LangGraph-Integration erfolgt über einen Callback.
+
+Weitere Open-Source-Optionen:
+- **Phoenix (Arize)** – starkes Tracing, LangChain-Integration
+- **OpenLLMetry** – OpenTelemetry-basiert, vendor-neutral
+
+Das Konzept setzt bewusst auf eine self-hostbare Lösung, um keine Abhängigkeit von kommerziellen Beobachtungsplattformen einzugehen.
 
 ### Eigene Management-Schicht
 Nicht alles kommt fertig aus dem Ökosystem. Projekte, Agentenregister, Policies, Projektprofile und Kundenregeln sollten bewusst als eigene Fachschicht modelliert werden.
@@ -26,6 +35,8 @@ Nicht alles kommt fertig aus dem Ökosystem. Projekte, Agentenregister, Policies
 
 - `agents/` enthält Rollen und ihre Tools
 - `workflows/` enthält die Abläufe
+- `tools/` enthält geteilte Tools
+- `framework/shared_subgraphs/` enthält wiederverwendbare Teilworkflows
 - projektspezifisches Wissen liegt vorzugsweise direkt im Projekt oder Kundenrepo
 - zentrale Repositories enthalten Standards, Templates und Referenzwissen
 - Repositories und externe Systeme bleiben eigenständige Ressourcen
@@ -44,4 +55,4 @@ Nicht im Fokus liegt aktuell:
 - detaillierte produktionsnahe Datenschutzarchitektur
 
 ## Grundregel
-Agenten liefern Fähigkeiten. Workflows steuern den Ablauf. Projektwissen wird im Workflow geladen und in den State geschrieben.
+Agenten liefern Fähigkeiten. Workflows steuern den Ablauf. Projektwissen wird im Workflow geladen und in den State geschrieben. Die Beobachtungsschicht ist austauschbar und unabhängig vom Kernstack.

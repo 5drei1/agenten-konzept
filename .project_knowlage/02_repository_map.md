@@ -24,25 +24,46 @@ Sammlung wichtiger Fragen und Antworten, die während der gemeinsamen Ausarbeitu
 ### `templates/`
 Vorlagen für Project Profiles, Workflows und Agenten.
 
-## Wichtige Dateien in `docs/`
+## Dateien in `docs/`
 
 ### `docs/00_vision_und_ziele.md`
-Warum das Repository existiert und welches Zielbild verfolgt wird.
+Warum das Repository existiert, die Leitidee und das Zielbild. Einstieg für menschliche Leser.
+
+### `docs/01_kernbegriffe.md`
+Definitionen aller zentralen Begriffe: Projekt, Agent, Workflow, Tool, Skill, Projektwissen, State, Policy, Approval, Subgraph.
 
 ### `docs/02_architekturueberblick.md`
-Erklärt die Rollen von LangChain, LangGraph, LangSmith und der eigenen Fachschicht.
+Rollen von LangChain, LangGraph, LangSmith und der eigenen Management-Schicht.
 
 ### `docs/03_ordnerstruktur.md`
-Beschreibt die empfohlene Trennung zwischen Agenten, Workflows, Framework-Elementen und projektlokalem Wissen.
+Empfohlene Ordnerstruktur für Framework- und Projektrepos. Inkl. Tool-Ordner, Subgraph-Struktur und Entscheidungsregel Tool vs. Subgraph.
+
+### `docs/04_projekte_agenten_workflows.md`
+Das Drei-Ebenen-Modell: Projekt, Agent, Workflow – und was Workflows neben Agenten noch aufrufen.
 
 ### `docs/05_projektwissen_und_kontext.md`
-Erklärt, wie Projektwissen geladen wird und warum es primär in den Workflow gehört.
+Wie Projektwissen geladen wird und warum es primär in den Workflow gehört, nicht in den Agenten.
+
+### `docs/06_tools_integrationen_und_skills.md`
+Tool-Definition in LangChain (@tool, StructuredTool), bind_tools(), ToolNode, Entscheidungsregel Tool vs. Subgraph, Skill-Begriff.
+
+### `docs/07_policies_freigaben_datenschutz.md`
+Freigabestufen, PII-Schutz-Muster und Governance-Regeln.
+
+### `docs/08_beobachtung_evals_qualitaet.md`
+Was beobachtet wird, Qualitätsachsen und Eval-Sets.
+
+### `docs/09_deployment_und_kundenauslagerung.md`
+Drei Deployment-Modelle (zentral, hybrid, self-hosted) und Muster für Kundenprojekte.
+
+### `docs/10_best_practices_und_entscheidungen.md`
+Architekturprinzipien und Entscheidungsregeln. Verweist auf docs/12 für Ausbaustufen.
 
 ### `docs/11_wissensablage_lokal_vs_zentral.md`
-Definiert die aktuelle Wissensstrategie des Repositories.
+Wissensstrategie: was lokal bleibt, was zentral liegt.
 
 ### `docs/12_minimales_system.md`
-Beschreibt drei Ausbaustufen (Minimal, Mittel, Komplex) mit konkreten Inhalten pro Stufe und Übergangskriterien. Einstiegspunkt für die Frage: Womit fange ich an?
+Drei Ausbaustufen (Minimal, Mittel, Komplex) mit konkreten Inhalten pro Stufe und Übergangskriterien. Einstiegspunkt für: Womit fange ich an?
 
 ## Wie Agenten navigieren sollten
 
