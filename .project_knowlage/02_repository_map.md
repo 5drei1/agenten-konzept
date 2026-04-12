@@ -41,6 +41,9 @@ Erklärt, wie Projektwissen geladen wird und warum es primär in den Workflow ge
 ### `docs/11_wissensablage_lokal_vs_zentral.md`
 Definiert die aktuelle Wissensstrategie des Repositories.
 
+### `docs/12_minimales_system.md`
+Beschreibt drei Ausbaustufen (Minimal, Mittel, Komplex) mit konkreten Inhalten pro Stufe und Übergangskriterien. Einstiegspunkt für die Frage: Womit fange ich an?
+
 ## Wie Agenten navigieren sollten
 
 ### Wenn neue Konzeptinhalte entstehen
