@@ -29,5 +29,7 @@ Ein gutes Startset besteht oft aus:
 - einfachen Policies
 - Tracing und ersten Evals
 
+Was genau in einem minimalen System enthalten ist, welche Teile bewusst weggelassen werden und wann ein Upgrade auf eine komplexere Stufe sinnvoll ist, beschreibt `docs/12_minimales_system.md`.
+
 ## Bewusste Vereinfachung
 Nicht jedes Problem braucht Multi-Agent-Systeme. Manche Schritte sind mit Skripten oder einfachen Tools besser gelöst.
