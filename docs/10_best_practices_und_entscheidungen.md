@@ -25,7 +25,7 @@ Ein gutes Startset besteht oft aus:
 - Coder
 - Reviewer
 - 2 bis 4 Kernworkflows
-- Projektprofilen
+- projektnahem Wissen
 - einfachen Policies
 - Tracing und ersten Evals
 

@@ -7,8 +7,8 @@ Was soll der Workflow erreichen?
 Wodurch wird der Workflow gestartet?
 
 ## Eingaben
-- Projekt-ID
-- Fachlicher Input
+- Projekt-ID oder Repo-Pfad
+- fachlicher Input
 - Laufzeitdaten
 
 ## Schritte

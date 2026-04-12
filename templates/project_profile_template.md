@@ -27,3 +27,6 @@
 - KPIs
 - Qualitätskriterien
 - Risiken
+
+## Hinweis
+Dieses Template kann zentral liegen. Das eigentliche Detailwissen sollte jedoch häufig direkt im Projekt abgelegt werden.

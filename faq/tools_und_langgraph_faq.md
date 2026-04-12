@@ -12,4 +12,4 @@ LangChain und LangGraph sind offen nutzbar. Beobachtungs- und Management-Plattfo
 Nicht als perfektes All-in-one-Werkzeug. Der offizielle Weg ist eher code-first mit zusätzlicher UI für Beobachtung und Iteration.
 
 ## Sollte ich alles selbst bauen?
-Nein. Die Agenten- und Workflow-Infrastruktur sollte auf bestehende Bausteine setzen. Selbst gebaut werden sollte vor allem die Fachschicht mit Projekten, Profiles, Policies und konkreten Workflows.
+Nein. Die Agenten- und Workflow-Infrastruktur sollte auf bestehende Bausteine setzen. Selbst gebaut werden sollte vor allem die Fachschicht mit Projekten, projektnahem Wissen, Policies und konkreten Workflows.

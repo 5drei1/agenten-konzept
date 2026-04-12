@@ -21,7 +21,8 @@ Nicht alles kommt fertig aus dem Ökosystem. Projekte, Agentenregister, Policies
 
 - `agents/` enthält Rollen und ihre Tools
 - `workflows/` enthält die Abläufe
-- `project_profiles/` enthält projektspezifisches Wissen
+- projektspezifisches Wissen liegt vorzugsweise direkt im Projekt oder Kundenrepo
+- zentrale Repositories enthalten Standards, Templates und Referenzwissen
 - Repositories und externe Systeme bleiben eigenständige Ressourcen
 - Policies und Monitoring spannen sich über alle Ebenen
 

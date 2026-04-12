@@ -5,8 +5,8 @@ Ein bestehendes Projekt hat einen Fehler. Das Ziel ist ein wiederverwendbarer Wo
 
 ## Beispielstruktur
 
-- Projektprofil: `project_profiles/payment_service/`
-- Repo: `workspace/repos/payment_service/`
+- Projektwissen: direkt im Projekt unter `project-knowledge/`
+- Repo: `workspace/repos/payment_service/` oder direktes Kundenrepo
 - Workflow: `workflows/bugfix/`
 - Agenten: Planner, Coder, Reviewer
 
@@ -23,7 +23,7 @@ Ein bestehendes Projekt hat einen Fehler. Das Ziel ist ein wiederverwendbarer Wo
 ## Was der Planner bekommt
 - Ticketbeschreibung
 - Stacktrace
-- Projektprofil
+- Projektprofil oder `project-knowledge/`
 - relevante Dateien
 - Coding-Regeln
 
@@ -34,4 +34,4 @@ Ein bestehendes Projekt hat einen Fehler. Das Ziel ist ein wiederverwendbarer Wo
 - Projektregeln
 
 ## Ergebnis
-Der Workflow ist wiederverwendbar. Das Projektwissen wird aus dem Profil und dem Repo-Kontext geladen.
+Der Workflow ist wiederverwendbar. Das Projektwissen wird aus dem Projektkontext und dem Repo geladen.

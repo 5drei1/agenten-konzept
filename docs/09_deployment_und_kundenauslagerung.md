@@ -27,6 +27,7 @@ Nicht einen riesigen Graphen pro Kunde bauen, sondern:
 - PII-Erkennung und Redaction
 - Freigabeschritte
 - produktive Integrationen
+- projekt- oder kundenspezifisches Wissen
 
 ## Was zentral bleiben kann
 - generische Analysebausteine

@@ -35,6 +35,9 @@ Workflows rufen nicht nur Agenten auf. Sie rufen auch:
 - Freigaben
 - Validierungen
 
+## Wo Projektwissen liegt
+Projektwissen muss nicht zentral gesammelt werden. Häufig liegt es sinnvollerweise direkt im Projekt- oder Kundenrepo und wird vom Workflow dort geladen.
+
 ## Merksatz
 
 - Agent = Fähigkeit

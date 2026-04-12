@@ -1,7 +1,7 @@
 # Projektwissen und Kontext
 
 ## Grundregel
-Projektspezifisches Wissen gehört primär in den Workflow und in das Projektprofil, nicht fest in den Agenten.
+Projektspezifisches Wissen gehört primär in den Workflow und möglichst nah an das jeweilige Projekt. Es gehört nicht fest in die Agenten.
 
 ## Warum?
 Wenn Projektwissen in Agenten verdrahtet wird, verlieren Agenten ihre Wiederverwendbarkeit. Wenn es im Workflow geladen wird, bleibt der Agent allgemein und der Ablauf wird projektspezifisch.
@@ -29,15 +29,20 @@ Wenn Projektwissen in Agenten verdrahtet wird, verlieren Agenten ihre Wiederverw
 - betroffene Dateien
 - aktueller Diff
 
-## project_profiles/
-In `project_profiles/` liegt vor allem langlebiges Wissen. Es ist keine Ablage für jeden einzelnen Lauf oder jedes Ticket.
+## Wo dieses Wissen liegen sollte
+
+### Bevorzugt projektlokal
+Direkt im Projekt oder Kundenrepo, zum Beispiel unter `project-knowledge/`.
+
+### Zentral nur ergänzend
+Für gemeinsame Sichtweisen, Templates oder Referenzstrukturen kann eine zentrale Ablage zusätzlich sinnvoll sein.
 
 ## Repo-Einbindung
-Das eigentliche Git-Repository liegt separat, zum Beispiel unter `workspace/repos/`. Das Projektprofil enthält Metadaten darüber, etwa den Pfad, wichtige Verzeichnisse oder Regeln.
+Das eigentliche Git-Repository bleibt die operative Quelle. Das Projektwissen liegt entweder im Projekt selbst oder in einer begleitenden projektnahen Struktur.
 
 ## Typischer Ablauf
-1. Workflow erhält `project_id`
-2. Workflow lädt `project_profile.yaml` und `repo_config.yaml`
+1. Workflow erhält `project_id` oder `repo_path`
+2. Workflow lädt Wissen aus `project-knowledge/` oder einem projektnahen Profil
 3. Workflow ermittelt relevante Dateien und Regeln
 4. State wird mit Projektkontext gefüllt
 5. Agenten erhalten nur den nötigen Ausschnitt

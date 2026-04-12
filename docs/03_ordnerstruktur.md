@@ -3,6 +3,8 @@
 ## Grundidee
 Die Struktur trennt Fähigkeiten, Abläufe und Wissen. Das hält Agenten wiederverwendbar und Workflows nachvollziehbar.
 
+## Zentrales Framework- oder Konzept-Repo
+
 ```text
 agents/
   planner/
@@ -31,20 +33,25 @@ workflows/
     state.py
     nodes.py
 
-project_profiles/
-  payment_service/
-    project_profile.yaml
-    repo_config.yaml
-    knowledge/
-      architecture.md
-      coding_rules.md
-      known_issues.md
-
-workspace/
-  repos/
-    payment_service/
+framework/
+  policies/
+  templates/
+  shared_subgraphs/
 
 run_workflow.py
+```
+
+## Projekt- oder Kundenrepo
+
+```text
+project-knowledge/
+  architecture.md
+  coding_rules.md
+  repo_config.yaml
+  known_issues.md
+
+src/
+...
 ```
 
 ## Bedeutung der Bereiche
@@ -55,11 +62,11 @@ Hier liegen Agentenrollen mit allgemeinen Instruktionen, erlaubten Tools und Kon
 ### workflows/
 Hier liegen die eigentlichen LangGraph-Workflows. Sie verbinden Agenten, Tools, Projektwissen und Freigaben.
 
-### project_profiles/
-Hier liegt stabiles, projektspezifisches Wissen. Dazu gehören Regeln, Architekturhinweise, Repo-Metadaten und Besonderheiten.
+### framework/
+Hier liegen projektübergreifende Policies, Templates und wiederverwendbare Bausteine.
 
-### workspace/repos/
-Hier liegen echte Git-Repositories oder gemountete Arbeitskopien. Das Projektwissen zeigt auf diese Repositories, es ersetzt sie nicht.
+### project-knowledge/
+Hier liegt stabiles, projektspezifisches Wissen direkt am Projekt oder Kundenprozess.
 
-### run_workflow.py
-Einfacher Einstiegspunkt zum Starten eines Workflows mit einem konkreten Input.
+## Kerngedanke
+Projektspezifisches Wissen sollte möglichst nah am Projekt liegen. Zentrale Repositories sammeln vor allem allgemeine Standards und Referenzstrukturen.

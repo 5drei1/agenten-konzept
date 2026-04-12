@@ -60,7 +60,7 @@ Beispiele:
 - weniger Streuung allgemeiner Regeln
 
 ## Konsequenz für dieses Konzept
-`project_profiles/` sollte nicht als einziger Ort für sämtliches Projektwissen verstanden werden. Es kann als zentrale Projektsicht dienen, aber das eigentliche Detailwissen darf und sollte häufig projektlokal liegen.
+Zentrale Profilstrukturen sollten nicht als einziger Ort für sämtliches Projektwissen verstanden werden. Sie können als Übersicht dienen, aber das eigentliche Detailwissen darf und sollte häufig projektlokal liegen.
 
 ## Praktisches Zielbild
 
