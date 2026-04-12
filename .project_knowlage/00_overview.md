@@ -3,7 +3,7 @@
 ## Zweck dieses Ordners
 `.project_knowlage/` ist die kompakte Arbeitsgrundlage für Agenten, die am Repository `agenten-konzept` arbeiten. Der Ordner soll schneller konsumierbar sein als die ausführliche Doku unter `docs/`.
 
-Für menschliche Leser ist der Einstieg: `README.md` und `docs/00_vision_und_ziele.md`.
+Für menschliche Leser ist der Einstieg: `PITCH.md` (Kurzüberblick / Pitch), `README.md` und `docs/00_vision_und_ziele.md`.
 
 ## Wofür Agenten diesen Ordner nutzen sollen
 Agenten sollen hier schnell verstehen:
