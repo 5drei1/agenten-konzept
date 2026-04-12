@@ -20,7 +20,6 @@ Dieses Repository dient aktuell:
 - der Konzeptdokumentation
 - der strategischen Ausarbeitung
 - dem Verständnis von Agenten, Workflows und Projektwissen
-- der Schärfung eines möglichen Business-Modells
 
 Es dient aktuell **nicht** als Ort für Beispielcode oder Referenzimplementierungen.
 
@@ -71,6 +70,9 @@ Wenn ein Agent etwas ergänzen will, sollte er zuerst prüfen:
 3. Ist es eine häufige Frage? Dann `faq/`
 4. Ist es ein Musterfall? Dann `examples/`
 5. Ist es eine Vorlage? Dann `templates/`
+
+## Ausbaustufen als Orientierung
+Das Repository beschreibt drei Ausbaustufen für Agenten-Systeme (Minimal, Mittel, Komplex). Details und Übergangskriterien in `docs/12_minimales_system.md`. Agenten sollten diese Stufen kennen, um Inhalte passend einzuordnen.
 
 ## Zusätzliche Leitplanke
 Das Repository ist bewusst auf LangChain und LangGraph ausgerichtet. Inhalte sollten diesen Fokus nicht beiläufig relativieren oder in eine allgemeine Framework-Sammlung verwandeln.
