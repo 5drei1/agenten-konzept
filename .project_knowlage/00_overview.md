@@ -3,6 +3,8 @@
 ## Zweck dieses Ordners
 `.project_knowlage/` ist die kompakte Arbeitsgrundlage für Agenten, die am Repository `agenten-konzept` arbeiten. Der Ordner soll schneller konsumierbar sein als die ausführliche Doku unter `docs/`.
 
+Für menschliche Leser ist der Einstieg: `README.md` und `docs/00_vision_und_ziele.md`.
+
 ## Wofür Agenten diesen Ordner nutzen sollen
 Agenten sollen hier schnell verstehen:
 
@@ -46,7 +48,7 @@ PII-Schutz und Freigaben sind Teil des Workflow-Designs, nicht bloß ein nachtr�
 ### Writer-Agent
 1. `00_overview.md`
 2. `01_core_model.md`
-3. `02_repository_map.md`
+3. `06_writing_rules.md`
 4. Ziel-Datei oder passender Ordner in `docs/`, `examples/`, `faq/` oder `templates/`
 
 ### Reviewer-Agent
