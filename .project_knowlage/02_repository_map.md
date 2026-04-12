@@ -5,7 +5,7 @@ Diese Datei hilft Agenten dabei, schnell zu verstehen, welche Ordner im Reposito
 
 ## Hauptordner
 
-### `project-knowledge/`
+### `.project_knowlage/`
 Kompakte Arbeitsgrundlage für Agenten. Dieser Ordner enthält die verdichtete Projektsicht und soll schneller lesbar sein als die ausführliche Dokumentation.
 
 ### `docs/`
@@ -40,7 +40,7 @@ Definiert die aktuelle Wissensstrategie des Repositories.
 ## Wie Agenten navigieren sollten
 
 ### Wenn neue Konzeptinhalte entstehen
-- zuerst `project-knowledge/` lesen
+- zuerst `.project_knowlage/` lesen
 - dann passende Datei in `docs/` suchen
 - nur dann neue Datei anlegen, wenn bestehende Dateien nicht sinnvoll erweitert werden können
 
@@ -59,7 +59,7 @@ Definiert die aktuelle Wissensstrategie des Repositories.
 ## Aktuelle Navigationsregel
 Für dieses Repository gilt:
 
-- `project-knowledge/` = agentenfreundliche Kurzsicht
+- `.project_knowlage/` = agentenfreundliche Kurzsicht
 - `docs/` = ausführliche Hauptdokumentation
 - `examples/` = Anwendungsbeispiele
 - `faq/` = wiederkehrende Klärungen

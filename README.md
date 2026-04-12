@@ -14,7 +14,7 @@ Dieses Repository dient als Ausarbeitung eines wiederverwendbaren Konzepts für 
 Local by default, central by exception.
 
 ## Inhalt
-- `project-knowledge/` enthält die agentenfreundliche Kurzsicht
+- `.project_knowlage/` enthält die agentenfreundliche Kurzsicht
 - `docs/` enthält Konzept, Architektur und Regeln
 - `examples/` enthält praktische Beispiele
 - `faq/` sammelt wichtige Fragen und Antworten

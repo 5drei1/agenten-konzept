@@ -1,7 +1,7 @@
 # Overview
 
 ## Zweck dieses Ordners
-`project-knowledge/` ist die kompakte Arbeitsgrundlage für Agenten, die am Repository `agenten-konzept` arbeiten. Der Ordner soll schneller konsumierbar sein als die ausführliche Doku unter `docs/`.
+`.project_knowlage/` ist die kompakte Arbeitsgrundlage für Agenten, die am Repository `agenten-konzept` arbeiten. Der Ordner soll schneller konsumierbar sein als die ausführliche Doku unter `docs/`.
 
 ## Wofür Agenten diesen Ordner nutzen sollen
 Agenten sollen hier schnell verstehen:
