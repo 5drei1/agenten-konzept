@@ -32,6 +32,8 @@ Ein Workflow beschreibt, was passiert. Agenten übernehmen klar abgegrenzte Roll
 
 ## Wo anfangen?
 
+**Pitch / Überblick** → [`PITCH.md`](PITCH.md)
+
 **Konzept verstehen** → [`docs/00_vision_und_ziele.md`](docs/00_vision_und_ziele.md)
 
 **Architektur und Technik** → [`docs/02_architekturueberblick.md`](docs/02_architekturueberblick.md)

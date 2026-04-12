@@ -4,6 +4,7 @@
 Diese Datei hilft Agenten dabei, schnell zu verstehen, welche Ordner im Repository welche Rolle haben.
 
 ## Einstieg für menschliche Leser
+- `PITCH.md` – Kompakte Präsentationsübersicht mit Diagrammen (Bewerbung / Kunden-Pitch)
 - `README.md` – Überblick und Orientierung (Startpunkt)
 - `docs/00_vision_und_ziele.md` – Vollständige Konzepterklärung
 
