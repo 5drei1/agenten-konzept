@@ -3,7 +3,43 @@
 ## Grundidee
 Die Struktur trennt Fähigkeiten, Abläufe und Wissen. Das hält Agenten wiederverwendbar und Workflows nachvollziehbar.
 
-## Zentrales Framework- oder Konzept-Repo
+## Repo-Organisation (Gitea / Self-hosted Git)
+
+Die Empfehlung ist eine **Organization** mit mehreren Repositories, aufgeteilt nach Verantwortlichkeit – nicht nach technischer Kategorie.
+
+```text
+gitea-org/
+  agent-framework/      ← geteilte Agenten, Workflows, Tools, Subgraphs
+  agenten-konzept/      ← dieses Konzept-Repo
+  projekt-kunde-a/      ← Kundenprojekt mit src/ + project-knowledge/
+  projekt-kunde-b/      ← weiteres Kundenprojekt
+```
+
+### Warum nicht ein Repo pro Kategorie (agents/, workflows/, tools/)?
+
+Ein Workflow importiert gleichzeitig Agenten und Tools. Liegen diese in separaten Repos, entstehen cross-repo-Abhängigkeiten, die Packaging, Submodules oder eine eigene Abhängigkeitsverwaltung erfordern. Dieser Overhead lohnt sich erst bei sehr großer Skalierung.
+
+### Warum nicht ein Repo pro Agent oder Workflow?
+
+Zu granular. Änderungen, die Agent und Workflow gleichzeitig betreffen, erfordern koordinierte Commits über viele Repos hinweg. Das erschwert Entwicklung und Nachvollziehbarkeit.
+
+### Wann macht ein eigenes Tools-Repo Sinn?
+
+Wenn Tools wirklich projektübergreifend geteilt werden, semantisch versioniert werden sollen und von mehreren unabhängigen Teams genutzt werden. Bis dahin gehören sie in `agent-framework/tools/`.
+
+### Prompts
+
+Prompts gehören **nicht** in ein eigenes Repo. Zwei sinnvolle Optionen:
+- Im Code neben dem Agenten (`agents/planner/prompts.py`) – versioniert mit dem Code, einfach zu ändern
+- In Langfuse verwaltet – dann sind sie gar nicht im Git, sondern über die Langfuse-API abrufbar
+
+### Beobachtung (Langfuse)
+
+Langfuse läuft als eigenständiger Dienst (Docker Compose, self-hosted). Es hat keinen Platz im Code-Ordner. Die Integration erfolgt über einen Callback-Handler im Workflow. Konfiguration (Endpoint, API-Key) kommt aus Umgebungsvariablen.
+
+---
+
+## Zentrales Framework-Repo (agent-framework/)
 
 ```text
 tools/
@@ -118,4 +154,4 @@ Ein **Subgraph** ist die richtige Wahl, wenn:
 - ein Mensch oder eine Regel an einem Punkt freigeben muss
 
 ## Kerngedanke
-Projektspezifisches Wissen sollte möglichst nah am Projekt liegen. Geteilte Tools und Subgraphs liegen zentral. Agenten bleiben schlank – ihre Stärke kommt aus klar definierten Prompts und minimal notwendigen Tools.
+Projektspezifisches Wissen liegt nah am Projekt. Geteilte Tools und Subgraphs liegen im zentralen Framework-Repo. Agenten bleiben schlank. Die Beobachtungsschicht (Langfuse) läuft als externer Dienst und hat keinen Platz im Code-Ordner.
