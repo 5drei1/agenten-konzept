@@ -31,6 +31,36 @@ Das Konzept setzt bewusst auf eine self-hostbare Lösung, um keine Abhängigkeit
 ### Eigene Management-Schicht
 Nicht alles kommt fertig aus dem Ökosystem. Projekte, Agentenregister, Policies, Projektprofile und Kundenregeln sollten bewusst als eigene Fachschicht modelliert werden.
 
+## Architekturdiagramm
+
+```mermaid
+flowchart TD
+    PK["Projektwissen\n(lokal im Projekt)"]
+
+    subgraph Framework["agent-framework"]
+        direction TB
+
+        subgraph WF["Workflow – LangGraph StateGraph"]
+            direction LR
+            PL["Planner\nAgent-Node"] --> CO["Coder\nAgent-Node"] --> RE["Reviewer\nAgent-Node"]
+        end
+
+        TN["ToolNode\n(Tool-Ausführung)"]
+        TO["Tools\nDatei · Git · Tests · API"]
+        SG["Shared Subgraphs\nKontext laden · Freigabe · Tests"]
+        PO["Policies & Freigaben"]
+    end
+
+    LF["Langfuse\n(self-hosted, austauschbar)"]
+
+    PK -->|"Kontext laden"| WF
+    WF <-->|"aufrufen"| TN
+    TN --> TO
+    SG -->|"eingebunden als Node"| WF
+    PO -.->|"begrenzen"| WF
+    LF -.->|"beobachten"| WF
+```
+
 ## Kernmodell
 
 - `agents/` enthält Rollen und ihre Tools
