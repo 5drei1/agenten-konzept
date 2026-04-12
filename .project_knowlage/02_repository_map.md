@@ -3,10 +3,14 @@
 ## Zweck
 Diese Datei hilft Agenten dabei, schnell zu verstehen, welche Ordner im Repository welche Rolle haben.
 
+## Einstieg für menschliche Leser
+- `README.md` – Überblick und Orientierung (Startpunkt)
+- `docs/00_vision_und_ziele.md` – Vollständige Konzepterklärung
+
 ## Hauptordner
 
 ### `.project_knowlage/`
-Kompakte Arbeitsgrundlage für Agenten. Dieser Ordner enthält die verdichtete Projektsicht und soll schneller lesbar sein als die ausführliche Dokumentation.
+Kompakte Arbeitsgrundlage für Agenten. Enthält die verdichtete Projektsicht – schneller lesbar als die ausführliche Dokumentation. Kein Einstieg für menschliche Leser.
 
 ### `docs/`
 Ausführliche Konzeptdokumentation. Hier liegen Vision, Architektur, Ordnerstruktur, Projektwissen, Datenschutz, Deployment und Best Practices.
