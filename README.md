@@ -1,3 +1,3 @@
-# agent-konzept
+# agenten-konzept
 
 ## Übersicht
