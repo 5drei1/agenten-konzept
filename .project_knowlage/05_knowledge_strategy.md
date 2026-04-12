@@ -9,6 +9,7 @@ Diese Datei beschreibt, wo Wissen in diesem Repository liegen soll und wie Agent
 ## Bedeutung für dieses Repository
 Das Repository selbst ist das zentrale Konzept- und Framework-Repo. Trotzdem soll Wissen auch hier klar getrennt werden:
 
+- Root-Level (`PITCH.md`, `README.md`) = Einstieg für menschliche Leser, Präsentationsartefakte
 - `.project_knowlage/` = kompakte, agentenfreundliche Arbeitsgrundlage
 - `docs/` = ausführliche Hauptdokumentation
 - `faq/` = wiederkehrende Fragen und Antworten
@@ -63,13 +64,20 @@ Es dient aktuell **nicht** als Ort für Beispielcode oder Referenzimplementierun
 - standardisierte Ausgangspunkte
 - Strukturen, die mehrfach genutzt werden sollen
 
+## Was auf Root-Ebene gehört
+- `PITCH.md` – Executive Summary für Bewerbungsgespräche und Kunden-Pitches (Mermaid-Diagramme, kompakt)
+- `README.md` – Einstieg ins Repository, Orientierung für menschliche Leser
+
+Agenten schreiben **nicht** auf Root-Ebene, außer sie ergänzen explizit diese beiden Dateien.
+
 ## Arbeitsregel für Agenten
 Wenn ein Agent etwas ergänzen will, sollte er zuerst prüfen:
-1. Ist es kompakte Steuerungsinformation? Dann `.project_knowlage/`
-2. Ist es ausführliche Hauptdoku? Dann `docs/`
-3. Ist es eine häufige Frage? Dann `faq/`
-4. Ist es ein Musterfall? Dann `examples/`
-5. Ist es eine Vorlage? Dann `templates/`
+1. Ist es ein Pitch oder Einstiegsdokument? Dann Root-Ebene (`PITCH.md`, `README.md`)
+2. Ist es kompakte Steuerungsinformation? Dann `.project_knowlage/`
+3. Ist es ausführliche Hauptdoku? Dann `docs/`
+4. Ist es eine häufige Frage? Dann `faq/`
+5. Ist es ein Musterfall? Dann `examples/`
+6. Ist es eine Vorlage? Dann `templates/`
 
 ## Ausbaustufen als Orientierung
 Das Repository beschreibt drei Ausbaustufen für Agenten-Systeme (Minimal, Mittel, Komplex). Details und Übergangskriterien in `docs/12_minimales_system.md`. Agenten sollten diese Stufen kennen, um Inhalte passend einzuordnen.
