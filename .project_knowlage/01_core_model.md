@@ -81,11 +81,12 @@ Das heißt:
 
 ## Technologischer Fokus
 Für dieses Konzept ist der Fokus aktuell bewusst auf:
-- LangChain – Modelle, Tools, einfache Agenten
-- LangGraph – Workflow-Orchestrierung als StateGraph
-- LangSmith – Beobachtung, Debugging, Evaluation
+- **LangChain** – Modelle, Tools, einfache Agenten
+- **LangGraph** – Workflow-Orchestrierung als StateGraph
 
 gelegt. Das Repository wertet keine alternativen Frameworks aus, sondern arbeitet ein belastbares Modell auf Basis dieses Stacks aus.
+
+Die **Beobachtungsschicht** ist eine austauschbare Komponente. Empfohlen wird **Langfuse** (self-hostbar, MIT-Lizenz). LangSmith ist ebenfalls nutzbar, aber teilweise kostenpflichtig. Details in `docs/02_architekturueberblick.md` und `faq/tools_und_langgraph_faq.md`.
 
 ## Was Agenten bei Änderungen beachten müssen
 - Begriffe konsistent halten
