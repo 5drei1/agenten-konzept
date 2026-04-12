@@ -13,6 +13,17 @@ Das Konzept dieses Repositories basiert auf wenigen klar getrennten Bausteinen:
 
 Diese Trennung ist die fachliche Wahrheit des Repositories.
 
+## Aktuelle Einordnung des Repositories
+Dieses Repository ist aktuell ein **Konzept- und Dokumentations-Repository**.
+
+Es dient dazu:
+- das Modell verständlich zu machen
+- Begriffe und Zusammenhänge zu schärfen
+- eine strukturierte Grundlage für spätere Entscheidungen zu schaffen
+- das Konzept auch als Grundlage eines Business-Modells zu beschreiben
+
+Es ist aktuell **kein Referenzcode- oder Architektur-Repo**.
+
 ## Die Bausteine
 
 ### Projekt
@@ -56,24 +67,22 @@ Das heißt:
 - projektspezifisches Wissen liegt bevorzugt direkt im Projekt oder Kundenrepo
 - das zentrale Konzept-Repo enthält vor allem Standards, Templates, Best Practices und Referenzmodelle
 
-## Beispielhafte Anwendung
+## Technologischer Fokus
+Für dieses Konzept ist der Fokus aktuell bewusst auf:
+- LangChain
+- LangGraph
 
-### Coding-Projekt
-- Projektwissen nahe am Repo
-- Bugfix-Workflow lädt Projektkontext
-- Planner, Coder und Reviewer arbeiten auf diesem Kontext
+gelegt.
 
-### Kundenprozess
-- Projektwissen nahe am Kundenprozess
-- Workflow lädt Regeln, Produktlogik, Freigaben und Datenschutzvorgaben
-- spezialisierte Agenten bearbeiten einzelne Schritte
+Diese Festlegung ist strategisch und konzeptionell gewollt. Das Repository soll also nicht primär alternative Frameworks gegeneinander auswerten, sondern ein belastbares Modell auf Basis dieses Stacks ausarbeiten.
 
 ## Was Agenten bei Änderungen beachten müssen
 - Begriffe konsistent halten
 - Workflow-first nicht unterlaufen
 - Projektwissen nicht als festen Agentenbesitz darstellen
 - zentrale und lokale Wissensschichten sauber unterscheiden
-- Freigaben und Datenschutz nicht als optional beschreiben
+- Datenschutz aktuell nicht künstlich zum Hauptfokus machen
+- das Repository als Konzept- und Strategierepo behandeln, nicht als Code-Repo
 
 ## Merksätze
 - Agenten liefern Fähigkeiten.

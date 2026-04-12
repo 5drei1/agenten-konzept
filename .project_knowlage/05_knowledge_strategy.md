@@ -12,8 +12,17 @@ Das Repository selbst ist das zentrale Konzept- und Framework-Repo. Trotzdem sol
 - `.project_knowlage/` = kompakte, agentenfreundliche Arbeitsgrundlage
 - `docs/` = ausführliche Hauptdokumentation
 - `faq/` = wiederkehrende Fragen und Antworten
-- `examples/` = konkrete Anwendungsbeispiele
+- `examples/` = konkrete Anwendungsbeispiele auf Konzeptebene
 - `templates/` = wiederverwendbare Vorlagen
+
+## Rolle dieses Repositories
+Dieses Repository dient aktuell:
+- der Konzeptdokumentation
+- der strategischen Ausarbeitung
+- dem Verständnis von Agenten, Workflows und Projektwissen
+- der Schärfung eines möglichen Business-Modells
+
+Es dient aktuell **nicht** als Ort für Beispielcode oder Referenzimplementierungen.
 
 ## Was in `.project_knowlage/` gehört
 - verdichtete Projektsicht
@@ -22,12 +31,16 @@ Das Repository selbst ist das zentrale Konzept- und Framework-Repo. Trotzdem sol
 - Workflow-Muster
 - Wissensstrategie
 - Navigationshilfe
+- Schreibregeln
+- offene Fragen
+- Roadmap
 
 ## Was nicht in `.project_knowlage/` gehört
 - komplette Langtexte aus `docs/`
 - beliebige Rohnotizen
 - doppelte Kopien ganzer Dokumente
 - unstrukturierte Zwischenstände
+- Codebeispiele oder Implementierungsskizzen ohne klaren Konzeptnutzen
 
 ## Was in `docs/` gehört
 - ausführliche Erklärungen
@@ -35,6 +48,7 @@ Das Repository selbst ist das zentrale Konzept- und Framework-Repo. Trotzdem sol
 - Best Practices
 - Policies
 - Deployment-Modelle
+- strategische Einordnungen
 
 ## Was in `faq/` gehört
 - wiederkehrende Klärungsfragen
@@ -42,9 +56,9 @@ Das Repository selbst ist das zentrale Konzept- und Framework-Repo. Trotzdem sol
 - Einordnungen zu Missverständnissen
 
 ## Was in `examples/` gehört
-- konkrete Beispiele
-- illustrative Abläufe
-- praxisnahe Musterfälle
+- illustrative Beispiele
+- konzeptionelle Musterfälle
+- praxisnahe Denkmodelle
 
 ## Was in `templates/` gehört
 - standardisierte Ausgangspunkte
@@ -57,6 +71,9 @@ Wenn ein Agent etwas ergänzen will, sollte er zuerst prüfen:
 3. Ist es eine häufige Frage? Dann `faq/`
 4. Ist es ein Musterfall? Dann `examples/`
 5. Ist es eine Vorlage? Dann `templates/`
+
+## Zusätzliche Leitplanke
+Das Repository ist bewusst auf LangChain und LangGraph ausgerichtet. Inhalte sollten diesen Fokus nicht beiläufig relativieren oder in eine allgemeine Framework-Sammlung verwandeln.
 
 ## Ziel
 Wissen soll im Repository nicht nur vorhanden, sondern auffindbar, konsistent und für verschiedene Agentenrollen leicht nutzbar sein.

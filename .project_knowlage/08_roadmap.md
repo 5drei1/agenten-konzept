@@ -22,30 +22,37 @@ Ziel:
 Status:
 - im Aufbau
 
-## Phase 3: Entscheidungs- und Review-Schicht
+## Phase 3: Entscheidungs- und Meta-Schicht
 Ziel:
-- ADRs ergänzen
-- Review-Checklisten ergänzen
-- Konsistenz- und Governance-Regeln vertiefen
+- ADRs oder Entscheidungsdokumente ergänzen
+- Review-Hilfen ergänzen
+- Meta-Struktur des Repositories schärfen
+- Business-Modell-Aspekt klarer formulieren
 
-## Phase 4: Referenzmodelle und Templates ausbauen
+## Phase 4: Strategische Ausarbeitung vertiefen
 Ziel:
-- zusätzliche Templates
-- bessere Beispielabdeckung
-- genauere Referenzarchitekturen für Coding-Projekte und Kundenprozesse
+- Management-Schicht klarer beschreiben
+- Struktur für Agenten- und Workflow-Management schärfen
+- Rolle von LangChain und LangGraph im Zielbild präziser ausarbeiten
 
-## Phase 5: Referenz-Implementierungen vorbereiten
+## Phase 5: Spätere Vertiefungen
 Ziel:
-- konkrete Implementierungsnähe schaffen
-- Beispielstrukturen für Agenten, Workflows und Projektwissen ausformulieren
-- Entscheidung, ob echter Referenzcode ins Repo oder in separate Repos gehört
+- Governance bei Bedarf vertiefen
+- Datenschutz später sauber ergänzen
+- optional spätere Implementierungsnähe entscheiden
+
+## Was aktuell ausdrücklich nicht Priorität hat
+- Beispielcode
+- Referenzimplementierungen
+- produktionsnahe Referenzarchitektur
+- detaillierte Datenschutzarchitektur
 
 ## Priorität der nächsten Schritte
-1. `.project_knowlage/` vervollständigen
-2. ADRs ergänzen
-3. offene Fragen priorisieren
-4. Referenzbeispiele schärfen
-5. Implementierungsnähe planen
+1. Meta-Dokumente ergänzen
+2. Business-Modell-Aspekt schärfen
+3. Management-Schicht klarer beschreiben
+4. Entscheidungslogik dokumentieren
+5. spätere Vertiefungen bewusst auslagern
 
 ## Zielbild
-Das Repository soll sich von einer reinen Denksammlung zu einer belastbaren Referenz- und Arbeitsbasis für wiederverwendbare Agenten- und Workflow-Systeme entwickeln.
+Das Repository soll sich zu einer belastbaren Konzept- und Arbeitsbasis für wiederverwendbare Agenten- und Workflow-Systeme entwickeln, nicht zu einem Code- oder Demo-Repository.

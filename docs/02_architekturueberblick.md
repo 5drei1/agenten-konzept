@@ -3,6 +3,11 @@
 ## Zielbild
 Das Konzept trennt sauber zwischen Bauen, Orchestrieren und Beobachten.
 
+## Technologische Leitplanke
+Für dieses Repository ist die technologische Ausrichtung aktuell bewusst auf **LangChain** und **LangGraph** festgelegt.
+
+Das Repository ist damit nicht als neutraler Marktvergleich gedacht, sondern als fokussierte Konzeptbasis für einen Stack, der als modern, anpassungsfähig und für agentische Workflows sehr geeignet betrachtet wird.
+
 ## Empfohlene Rollen der Bausteine
 
 ### LangChain
@@ -25,6 +30,18 @@ Nicht alles kommt fertig aus dem Ökosystem. Projekte, Agentenregister, Policies
 - zentrale Repositories enthalten Standards, Templates und Referenzwissen
 - Repositories und externe Systeme bleiben eigenständige Ressourcen
 - Policies und Monitoring spannen sich über alle Ebenen
+
+## Aktueller Fokus des Repositories
+Der Fokus liegt aktuell auf:
+- Konzeptdokumentation
+- Strukturverständnis
+- Rollen- und Workflow-Modellen
+- strategischer und fachlicher Klarheit
+
+Nicht im Fokus liegt aktuell:
+- Beispielcode
+- Referenzimplementierung
+- detaillierte produktionsnahe Datenschutzarchitektur
 
 ## Grundregel
 Agenten liefern Fähigkeiten. Workflows steuern den Ablauf. Projektwissen wird im Workflow geladen und in den State geschrieben.
