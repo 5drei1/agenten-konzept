@@ -40,6 +40,20 @@ Wissen, das zu einem Projekt gehört, liegt möglichst nah am Projekt – im sel
 ### 5. Datenschutz als Architekturthema
 Personenbezogene Daten dürfen nicht unkontrolliert an externe Modelle weitergegeben werden. Das ist kein nachträgliches Feature, sondern Teil des Workflow-Designs: Klassifikation, Erkennung, Anonymisierung und Routing sind feste Bestandteile des Ablaufs.
 
+## Warum nicht einfach ein großer Prompt?
+
+Die naheliegende Alternative zu diesem Konzept ist ein einzelner, mächtiger Agent mit einem langen Prompt. Das funktioniert für einfache Aufgaben. Es scheitert, sobald die Aufgabe komplexer wird – und das aus konkreten Gründen:
+
+**Kein klares Versagen.** Wenn ein einzelner Agent einen Fehler macht, ist unklar wo: am Prompt, am Kontext, am Modell, am Tool-Aufruf? Spezialisierte Agenten in einem Workflow haben klare Grenzen. Wenn der Reviewer falsch entscheidet, weiß man wo das Problem liegt.
+
+**Kein Projektwissen ohne Kontextverschmutzung.** Ein einzelner Prompt für alle Projekte muss entweder pauschal mit allem befüllt werden – oder er weiß zu wenig. Ein Workflow lädt gezielt, was für den aktuellen Schritt relevant ist. Nichts mehr, nichts weniger.
+
+**Nicht testbar.** Einen langen Prompt zu testen bedeutet, das Gesamtverhalten zu testen. Spezialisierte Agenten können einzeln getestet werden. Workflows können mit Eval-Sets geprüft werden. Das macht Qualitätssicherung überhaupt erst möglich.
+
+**Nicht wiederverwendbar.** Ein monolithischer Agent ist auf seine Aufgabe zugeschnitten. Ein Bugfix-Workflow mit Planner, Coder und Reviewer kann für jedes Projekt neu verwendet werden – mit anderem Projektwissen, denselben Agenten.
+
+**Nicht skalierbar.** Bei steigender Komplexität wächst der Prompt – bis er das Kontextfenster sprengt oder die Qualität sinkt. Workflows und Subgraphs skalieren horizontal: neue Aufgaben werden als neue Nodes oder Subgraphs ergänzt, nicht als immer längere Prompts.
+
 ## Was dieses Repository ist
 
 Ein Konzept- und Dokumentations-Repository – kein Code, keine Referenzimplementierung.
