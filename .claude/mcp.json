@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "mcpdoc": {
+      "command": "uvx",
+      "args": ["mcpdoc", "--urls", "LangGraph:https://langchain-ai.github.io/langgraph/llms.txt", "LangChain:https://python.langchain.com/llms.txt"],
+      "description": "Live-Zugriff auf LangGraph und LangChain Dokumentation"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Python-Library-Docs on-demand (langchain, langgraph, pydantic, httpx, ...)"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "description": "Lokaler Dateizugriff auf das Projektverzeichnis"
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub-Zugriff: Issues, PRs, Commits, Dateien"
+    }
+  }
+}
