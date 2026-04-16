@@ -12,7 +12,7 @@ Beispiel: `/new-workflow bugfix "Analysiert einen Bug, schreibt Fix, läuft Test
 
 ## Was dieser Befehl tut
 
-1. Liest `.project_knowlage/01_core_model.md` und `04_workflow_patterns.md`
+1. Liest `.project_knowledge/01_core_model.md` und `04_workflow_patterns.md`
 2. Erstellt `workflows/[name]_flow.py` mit:
    - `TypedDict` State-Definition
    - `StateGraph` mit Planner → Coder → Reviewer Grundmuster
