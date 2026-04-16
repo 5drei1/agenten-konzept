@@ -34,7 +34,7 @@ Entscheidungsregel **Tool vs. Subgraph**:
 ## 2. Repository-Struktur
 
 ```
-.project_knowlage/      ← Arbeitsgrundlage für Agenten (hier zuerst lesen)
+.project_knowledge/      ← Arbeitsgrundlage für Agenten (hier zuerst lesen)
   00_overview.md        ← Einstieg, Navigation
   01_core_model.md      ← Kernmodell, Bausteine, Architekturregeln
   02_repository_map.md  ← Wo liegt was
@@ -56,7 +56,7 @@ README.md               ← Einstieg für menschliche Leser
 **Schreibregeln:**
 - Agenten schreiben NICHT auf Root-Ebene außer `PITCH.md` und `README.md`
 - Neue Konzeptinhalte gehören in `docs/`
-- Kompakte Steuerungsinformationen in `.project_knowlage/`
+- Kompakte Steuerungsinformationen in `.project_knowledge/`
 - Kein Code in diesem Repo – es ist ein reines Konzept-Repo
 
 ---
@@ -277,8 +277,8 @@ mein-projekt/
 ## 7. Arbeitsregeln für Claude Code
 
 ### Vor jeder Aufgabe
-1. `.project_knowlage/00_overview.md` lesen
-2. `.project_knowlage/01_core_model.md` lesen
+1. `.project_knowledge/00_overview.md` lesen
+2. `.project_knowledge/01_core_model.md` lesen
 3. Relevante `docs/`-Datei lesen wenn die Aufgabe einen spezifischen Bereich betrifft
 4. Bestehende Dateien suchen bevor neue erstellt werden (`Glob`, `Grep`)
 
@@ -294,7 +294,7 @@ mein-projekt/
 - Deutsch als Sprache
 - Kompakt und präzise – kein Fülltext
 - Mermaid für Diagramme
-- Keine doppelten Inhalte zwischen `.project_knowlage/` und `docs/`
+- Keine doppelten Inhalte zwischen `.project_knowledge/` und `docs/`
 
 ### Was NIE gemacht werden darf
 - Projektwissen fest in Agenten verdrahten
