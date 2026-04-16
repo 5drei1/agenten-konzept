@@ -1,19 +1,6 @@
 # /design-agents
 
-Hilft dabei, einen Use Case zuerst sauber zu formulieren und daraus einen umsetzbaren Agenten- oder Workflow-Plan abzuleiten.
-
-## Zweck
-
-Dieser Befehl ist **Phase 1: Design**.
-Er dient nicht dazu, sofort Code zu erzeugen, sondern zuerst den eigentlichen Use Case sauber herauszuarbeiten.
-
-Claude soll den Nutzer dabei unterstützen,
-- den fachlichen Kern eines Vorhabens zu formulieren,
-- zwischen **neuem Agenten in bestehendem Projekt** und **komplettem Workflow** zu unterscheiden,
-- passende Agenten-Rollen und Workflow-Patterns abzuleiten,
-- daraus einen belastbaren Plan als ADR zu erzeugen.
-
-Der Befehl soll bewusst dialogisch arbeiten. Der erste Input des Nutzers ist oft noch unscharf, lösungsorientiert oder unvollständig. Claude hilft deshalb zuerst beim **Formulieren des Use Cases**, bevor es Architektur empfiehlt.
+Phase 1 des Agenten-Designs: Use Case herausarbeiten, Architektur ableiten, ADR anlegen.
 
 ## Verwendung
 
@@ -25,23 +12,30 @@ Beispiel:
 ```bash
 /design-agents bugfix-review-flow
 /design-agents angebot-assistent
-/design-agents code-review-agent
 ```
 
-## Ergebnis
+`[name]` wird der Dateiname der ADR: `adr/[name]_[YYYY-MM-DD].md`
 
-Claude erstellt eine ADR-Datei unter:
+Diese Datei ist die Grundlage für Phase 2: `/build-agents [name]`
 
-```bash
-adr/[name]_[YYYY-MM-DD].md
-```
+---
 
-Beispiel:
-```bash
-adr/bugfix-review-flow_2026-04-16.md
-```
+## Verfügbare MCP-Plugins
 
-Diese Datei dient als Grundlage für Phase 2 mit `/build-agents [name]`.
+Dieser Skill kann folgende MCP-Server aktiv nutzen, um Architekturentscheidungen auf echten Docs abzustützen:
+
+| Plugin | Einsatz im Design-Prozess |
+|---|---|
+| **mcpdoc** | LangGraph/LangChain Docs live nachschlagen – Patterns, API, Primitive verifizieren |
+| **context7** | Python-Library-Docs on-demand – z. B. Pydantic, httpx, asyncio wenn Tools diskutiert werden |
+| **github** | Bestehende Repo-Struktur des Zielprojekts lesen – Agenten, Workflows, State-Definition |
+
+**Wann Plugins nutzen:**
+- Wenn ein Pattern oder eine API-Entscheidung unsicher ist → `mcpdoc` für aktuelle LangGraph Docs
+- Wenn der Nutzer ein konkretes Zielprojekt nennt → `github` um bestehende Struktur zu lesen, **bevor** Empfehlungen gegeben werden
+- Wenn Libraries für Tools diskutiert werden → `context7` für API-Details
+
+**Regel:** Nicht blind empfehlen was vielleicht veraltet ist. Lieber kurz nachschlagen.
 
 ---
 
@@ -49,159 +43,163 @@ Diese Datei dient als Grundlage für Phase 2 mit `/build-agents [name]`.
 
 ### Phase 1A – Use Case formulieren
 
-Claude beginnt **immer offen** und nicht mit einer Checkliste.
+Claude beginnt **immer mit einer offenen Frage**, nie mit einer Checkliste.
 
-Erste Frage sinngemäß:
-> Was möchtest du automatisieren oder unterstützen, und woran merkst du heute, dass der Ablauf noch nicht gut gelöst ist?
+Erste Frage:
+> Was möchtest du automatisieren oder unterstützen – und woran merkst du heute, dass der Ablauf noch nicht gut gelöst ist?
 
-Ziel dieser ersten Phase:
-- Problem vor Lösung verstehen
-- gewünschten Ablauf erfassen
-- Auslöser, Ziel, Grenzen und Ergebnis klären
-- implizite Annahmen sichtbar machen
+**Ziel:** Problem verstehen, nicht Lösung entgegennehmen.
 
-Wenn der Nutzer zu schnell in Lösungssprache springt (z. B. „ich brauche 3 Agenten“), führt Claude zurück auf den fachlichen Kern:
-- Welches Problem lösen diese Agenten?
-- Was passiert heute manuell?
+Wenn der Nutzer zu schnell in Lösungssprache springt ("ich brauche 3 Agenten", "ich will einen Workflow"), führt Claude zurück:
+- Welches Problem löst das konkret?
+- Was passiert heute manuell oder fehleranfällig?
 - Was ist der gewünschte Endzustand?
-- Wo beginnt und endet der Ablauf?
 
-Claude soll in dieser Phase **wenige, aber gute Rückfragen** stellen.
-Nicht interviewartig alles auf einmal, sondern iterativ, bis der Use Case verständlich ist.
+**Maximale Rückfragen in dieser Phase: 3**
+Danach muss Claude mit dem vorhandenen Verständnis weiterarbeiten und Unklarheiten in der ADR als offene Fragen dokumentieren.
 
-### Phase 1B – Scope unterscheiden
+---
 
-Sobald der Use Case verständlich ist, muss Claude entscheiden, welcher von zwei Fällen vorliegt:
+### Phase 1B – Scope erkennen
+
+Nach Phase 1A entscheidet Claude zwischen zwei Fällen:
 
 #### Fall A – Neuer Agent in bestehendem Projekt
 
-Merkmale:
-- Es gibt bereits einen bestehenden Ablauf oder Graphen
-- Es fehlt eine klar abgegrenzte Rolle
-- Der neue Agent soll in vorhandene Struktur eingebettet werden
+**Erkennungsmerkmale:**
+- Bestehendes Projekt / Graph vorhanden
+- Eine Rolle fehlt oder ist zu groß
+- Integration in bestehende Struktur nötig
 
-Dann klärt Claude gezielt:
-- Welche Aufgabe übernimmt der neue Agent genau?
-- Was ist seine Eingabe?
-- Was ist sein Output?
-- Welche bestehenden Agenten oder Workflows grenzen daran an?
-- Welche Tools braucht er wirklich?
-- Welche Verantwortung soll **nicht** in diesen Agenten?
+**Dann:** `github`-Plugin nutzen um Ist-Struktur zu lesen (agents/, workflows/, state.py).
+
+**Gezielte Klärungsfragen (max. 2):**
+- Was ist die Eingabe und der Output dieser neuen Rolle?
+- Welche bestehenden Nodes grenzen daran an?
 
 #### Fall B – Kompletter Workflow
 
-Merkmale:
-- Es geht nicht nur um eine Rolle, sondern um einen ganzen Ablauf
-- Mehrere Schritte oder Rollen sind nötig
-- Routing, Review oder Human-in-the-Loop sind wahrscheinlich relevant
+**Erkennungsmerkmale:**
+- Mehrere Rollen / Schritte nötig
+- Noch kein Graph vorhanden
+- Routing, Review oder Human-in-the-Loop wahrscheinlich
 
-Dann klärt Claude gezielt:
-- Was ist der Trigger des Workflows?
-- Welche Hauptschritte gibt es?
-- Welche Schritte hängen voneinander ab?
-- Welche Schritte sind unabhängig und parallelisierbar?
-- Wo braucht es Review, Freigabe oder Routing?
-- Welches Ergebnis muss am Ende vorliegen?
+**Dann:** `mcpdoc` nutzen um das passende LangGraph-Pattern zu verifizieren.
+
+**Gezielte Klärungsfragen (max. 2):**
+- Was ist der Trigger – und was ist das abschließende Ergebnis?
+- Gibt es Schritte die Freigabe oder Qualitätsprüfung brauchen?
+
+---
 
 ### Phase 1C – Architektur ableiten
 
-Erst wenn der Use Case klar genug ist, leitet Claude aus dem Konzept die Architektur ab.
+Erst wenn Scope und Use Case klar sind, leitet Claude die Architektur ab.
 
-Dabei gelten diese Grundregeln:
-- Erst Workflow, dann Agenten
-- Ein Agent = eine klar definierte Rolle
-- Tools nur dort binden, wo sie wirklich gebraucht werden
-- Review und Human-in-the-Loop nur dort, wo Risiko oder Qualität es verlangen
-- Bestehende Struktur bevorzugen statt unnötig neue Komplexität einzuführen
+**Grundregeln:**
+- Workflow first – Agenten sind Konsequenz des Workflows, nicht umgekehrt
+- Ein Agent = eine Rolle, keine Allrounder
+- Tools nur dort wo wirklich gebraucht, mit Begründung
+- Human-in-the-Loop nur bei echtem Risiko oder Qualitätserfordernis
+- Bestehende Strukturen bevorzugen
 
-Claude soll folgende Punkte ableiten:
-- Handelt es sich um **Agent-Erweiterung** oder **Workflow-Neubau**?
-- Welche Agenten-Rollen sind nötig?
-- Welches Workflow-Pattern passt? (Sequential Chain, Parallel Fan-Out, Review Loop, Conditional Routing)
-- Welche Tools/MCP-Fähigkeiten sind voraussichtlich nötig?
-- Welche Artefakte sollten in Phase 2 erzeugt werden?
+**Claude leitet ab:**
+- Fall A oder Fall B?
+- Welche Agenten-Rollen mit welchen Verantwortlichkeiten?
+- Welches Pattern: Sequential Chain / Parallel Fan-Out / Review Loop / Conditional Routing?
+- Braucht es einen Supervisor-Agenten?
+- Welche Tools je Rolle?
+- Human-in-the-Loop: ja/nein, wenn ja: wo und mit welchem `interrupt()`-Punkt?
+- Welches State-Feld trägt was?
+- Welche Dateien legt `/build-agents` an?
+
+**Bei Pattern-Unsicherheit:** `mcpdoc` aufrufen und aktuelle LangGraph Docs prüfen, bevor Empfehlung gemacht wird.
 
 ---
 
-## ADR-Struktur
+## Schluss-Check vor ADR
 
-Claude erstellt eine kompakte, aber belastbare ADR-Datei mit folgendem Aufbau:
+Claude fasst kurz zusammen:
+
+```
+Verstandener Use Case: ...
+Einordnung: Neuer Agent | Kompletter Workflow
+Empfohlene Rollen: ...
+Pattern: ...
+Größte offene Risiken: ...
+```
+
+Dann fragt Claude:
+> Soll ich die ADR `adr/[name]_[datum].md` jetzt anlegen?
+
+Nur nach Zustimmung wird die Datei angelegt.
+
+---
+
+## ADR-Format
 
 ```md
 # ADR: [Titel]
+Datum: [YYYY-MM-DD]
 
 ## Kontext
-- Worum geht es fachlich?
-- Was ist heute das Problem?
-- Was soll verbessert oder automatisiert werden?
+- Fachliches Problem
+- Was passiert heute
+- Was soll besser werden
 
 ## Einordnung
-- Typ: Neuer Agent in bestehendem Projekt | Kompletter Workflow
+- Typ: Neuer Agent | Kompletter Workflow
 - Scope: eng | mittel | breit
 
 ## Zielbild
-- Was soll der Nutzer am Ende können?
-- Was ist ausdrücklich nicht Teil dieses Designs?
+- Was ist das gewünschte Ergebnis?
+- Was ist ausdrücklich NICHT Teil dieses Designs?
 
-## Empfohlene Architektur
-- Empfohlene Agenten-Rollen
-- Verantwortlichkeit je Rolle
-- Empfohlenes Workflow-Pattern
-- Benötigte Tools/Fähigkeiten
-- Human-in-the-Loop ja/nein, falls ja wo
+## Architektur
+- Rollen und Verantwortlichkeiten
+- Workflow-Pattern (mit Begründung)
+- State-Felder
+- Tools je Rolle
+- Human-in-the-Loop: nein | ja → wo + interrupt()-Punkt
+- Supervisor nötig: nein | ja
 
-## Eingaben und Ausgaben
-- Zentrale Inputs
-- Erwartete Outputs
-- Übergaben zwischen Rollen
+## Datenfluss
+- Trigger: ...
+- Schritte und Übergaben
+- Finales Ergebnis
 
 ## Offene Fragen
 - Was ist noch unklar?
-- Was muss vor Phase 2 entschieden werden?
+- Was muss vor /build-agents entschieden werden?
 
 ## Build-Plan
-- Welche Dateien soll `/build-agents [name]` anlegen?
-- In welcher Reihenfolge?
+- [ ] agents/[rolle].py
+- [ ] workflows/state.py
+- [ ] workflows/[name]_flow.py
+- [ ] workflows/subgraphs/... (falls nötig)
+Reihenfolge: State → Agents → Workflow → Subgraphs
 ```
-
----
-
-## Ausgabe-Regeln im Dialog
-
-Claude soll am Ende nicht nur eine Empfehlung geben, sondern diese **begründen**.
-
-Die Schlussausgabe vor dem Schreiben der ADR sollte deshalb enthalten:
-- Kurzfassung des verstandenen Use Cases
-- Einordnung: neuer Agent oder kompletter Workflow
-- empfohlene Rollen
-- empfohlenes Pattern
-- größte offene Risiken oder Unklarheiten
-
-Dann fragt Claude:
-> Ich habe daraus einen belastbaren Plan abgeleitet. Soll ich die ADR-Datei `adr/[name]_[datum].md` jetzt anlegen?
-
-Nur nach Zustimmung legt Claude die Datei an.
 
 ---
 
 ## Qualitätsregeln
 
-- Nicht zu früh Lösung vorschlagen
-- Erst Problemverständnis, dann Architektur
-- Keine Allround-Agenten empfehlen
-- Keine Tools ohne klare Begründung
-- Bei Unsicherheit lieber offene Fragen dokumentieren als falsche Sicherheit erzeugen
-- Bestehende Workflows respektieren, wenn es um Agent-Erweiterung geht
-- Immer zwischen **fachlichem Problem**, **Agentenrolle** und **technischer Implementierung** unterscheiden
+- Niemals Allround-Agenten empfehlen
+- Niemals Tools ohne klare Begründung
+- Niemals Pattern empfehlen ohne zu prüfen ob es für diesen Use Case passt
+- Bei Unsicherheit über APIs/Patterns: `mcpdoc` aufrufen
+- Bei bestehendem Projekt: erst `github` lesen, dann empfehlen
+- Unklarheiten in ADR dokumentieren, nicht erfinden
+- Max. 3 Rückfragen in Phase 1A, max. 2 in Phase 1B
 
 ---
 
 ## Übergabe an Phase 2
 
-Wenn die ADR geschrieben wurde, endet dieser Befehl mit einem klaren nächsten Schritt:
+```
+ADR gespeichert unter: adr/[name]_[datum].md
 
-```bash
-Prüfe die ADR.
-Wenn der Plan passt, starte:
+Prüfe den Plan.
+Wenn alles passt:
 /build-agents [name]
 ```
