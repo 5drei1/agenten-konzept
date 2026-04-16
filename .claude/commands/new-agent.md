@@ -12,7 +12,7 @@ Beispiel: `/new-agent reviewer "read_file,run_tests,post_review"`
 
 ## Was dieser Befehl tut
 
-1. Liest `.project_knowlage/03_agent_roles.md`
+1. Liest `.project_knowledge/03_agent_roles.md`
 2. Erstellt `agents/[rolle].py` mit:
    - System-Prompt der Rolle klar definiert
    - Nur die angegebenen Tools gebunden (`llm.bind_tools(tools)`)
