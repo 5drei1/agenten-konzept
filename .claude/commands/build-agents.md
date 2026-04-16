@@ -1,13 +1,10 @@
 # /build-agents
 
-Setzt einen zuvor entworfenen Plan aus einer ADR-Datei in konkrete Agenten- und Workflow-Dateien um.
+Phase 2: Liest eine ADR und koordiniert den Aufbau der Agenten- und Workflow-Dateien.
 
-## Zweck
-
-Dieser Befehl ist **Phase 2: Build**.
-Er baut nicht aus einer vagen Idee, sondern auf Basis einer bereits erstellten ADR-Datei aus `/design-agents [name]`.
-
-Claude soll die ADR lesen, den geplanten Scope prüfen und dann gezielt die notwendigen Dateien erzeugen oder vorbereiten.
+> Dieser Befehl ist der **Koordinator** zwischen Plan und Ausführung.
+> Er liest die ADR, leitet daraus die Build-Reihenfolge ab und ruft
+> `/new-agent` und `/new-workflow` als Primitive auf.
 
 ## Verwendung
 
@@ -19,164 +16,161 @@ Beispiel:
 ```bash
 /build-agents bugfix-review-flow
 /build-agents angebot-assistent
-/build-agents code-review-agent
 ```
 
-## Erwartete Grundlage
+**Voraussetzung:** Eine ADR-Datei unter `adr/[name]_[YYYY-MM-DD].md`,
+erstellt durch `/design-agents [name]`.
 
-Dieser Befehl erwartet eine bestehende ADR-Datei im Ordner `adr/`, benannt nach dem Schema:
+---
 
-```bash
-adr/[name]_[YYYY-MM-DD].md
+## Dialogregel
+
+> Claude stellt so viele Rückfragen wie nötig – aber jede Frage muss eine Entscheidung im Build verändern.
+> Fragen die keinen Einfluss auf Reihenfolge, Dateistruktur oder Implementierung hätten, werden weggelassen.
+> Fragen die Claude selbst aus der ADR ableiten kann, werden nicht gestellt.
+> Ziel ist ein sauber gebautes System – nicht ein kurzer Dialog.
+
+Nie mehrere Fragen auf einmal stellen. Eine Frage, Antwort abwarten, nächste Frage.
+
+---
+
+## Phase 2A – ADR laden und prüfen
+
+Claude sucht zuerst die passende ADR:
+
+- **Genau eine Datei gefunden** → laden und weiter
+- **Mehrere Dateien gefunden** → Treffer auflisten, Nutzer wählen lassen, nie raten
+- **Keine Datei gefunden** → abbrechen, auf `/design-agents [name]` verweisen
+
+Aus der ADR extrahiert Claude:
+- Typ: Neuer Agent | Kompletter Workflow
+- Empfohlene Rollen mit Verantwortlichkeiten und Tools
+- Workflow-Pattern
+- State-Felder
+- Human-in-the-Loop Punkte
+- Supervisor nötig: ja/nein
+- Build-Plan (Checkbox-Liste aus ADR Abschnitt "Build-Plan")
+- Offene Fragen
+
+Wenn die ADR **offene Kernfragen** enthält die den Build blockieren:
+- Punkte benennen
+- Gezielt klären (Dialogregel gilt)
+- Erst danach bauen
+
+Wenn die ADR vollständig ist: direkt zu Phase 2B.
+
+---
+
+## Phase 2B – Build-Plan präsentieren
+
+Vor dem Build präsentiert Claude eine kompakte Übersicht:
+
+```
+ADR: adr/[name]_[datum].md
+Typ: Neuer Agent | Kompletter Workflow
+
+Build-Reihenfolge:
+  1. workflows/state.py          (neu | bereits vorhanden)
+  2. agents/[rolle_1].py         (neu)
+  3. agents/[rolle_2].py         (neu)
+  4. workflows/[name]_flow.py    (neu)
+  5. workflows/subgraphs/...     (falls nötig)
+  6. agents/__init__.py          (ergänzen)
+  7. workflows/__init__.py       (ergänzen)
+
+Bestehende Dateien die angepasst werden:
+  - ...
+
+Offene Risiken:
+  - ...
 ```
 
-Wenn mehrere passende ADR-Dateien existieren, soll Claude:
-- die möglichen Treffer auflisten,
-- den Nutzer die richtige Datei auswählen lassen,
-- nicht raten.
+Dann fragt Claude:
+> Soll ich jetzt mit dem Build beginnen?
 
-Wenn keine passende ADR existiert, soll Claude abbrechen und auf `/design-agents [name]` verweisen.
+Erst nach Zustimmung startet Phase 2C.
 
 ---
 
-## Arbeitsweise
+## Phase 2C – Build ausführen
 
-### Phase 2A – ADR lesen und Build-Scope prüfen
+Claude baut in der festgelegten Reihenfolge:
 
-Claude liest die ADR und extrahiert daraus:
-- Typ: neuer Agent oder kompletter Workflow
-- empfohlene Rollen
-- empfohlene Workflow-Patterns
-- Build-Reihenfolge
-- offene Fragen oder Risiken
+**Immer: State zuerst, dann Agents, dann Workflow, dann Subgraphs.**
 
-Wenn die ADR noch Widersprüche oder offene Kernfragen enthält, soll Claude **nicht blind bauen**, sondern zuerst rückfragen.
+### Fall A – Neuer Agent in bestehendem Projekt
 
-### Phase 2B – Build-Strategie ableiten
+```
+1. Bestehende agents/, workflows/state.py lesen (github-Plugin falls Repo bekannt)
+2. /new-agent [rolle] [tools]  → agents/[rolle].py
+3. Anbindung an bestehenden Workflow prüfen und minimal anpassen
+4. agents/__init__.py ergänzen
+```
 
-Claude unterscheidet wieder zwischen zwei Fällen:
+Keine neuen Workflows anlegen wenn nicht in ADR vorgesehen.
+Keine Anpassungen an bestehenden Dateien ohne explizite Benennung.
 
-#### Fall A – Neuer Agent in bestehendem Projekt
+### Fall B – Kompletter Workflow
 
-Dann soll Claude typischerweise:
-- einen neuen Agenten anlegen,
-- den Agenten sauber an bestehende Struktur anbinden,
-- keine unnötigen neuen Workflows erzeugen,
-- nur die minimal nötigen Anpassungen empfehlen oder durchführen.
-
-Typische Artefakte:
-- `agents/[rolle].py`
-- `agents/__init__.py`
-- ggf. Anpassung an bestehendem Workflow oder Routing
-
-#### Fall B – Kompletter Workflow
-
-Dann soll Claude typischerweise:
-- benötigte Rollen nacheinander erzeugen,
-- State-Struktur anlegen,
-- Workflow-Datei anlegen,
-- Subgraphs oder Review-Schritte anlegen,
-- notwendige Tool-Bindings vorbereiten.
-
-Typische Artefakte:
-- `agents/*.py`
-- `workflows/state.py`
-- `workflows/[name]_flow.py`
-- `workflows/subgraphs/*.py`
-- ergänzende Dateien wie `agents/__init__.py`
-
----
-
-## Build-Regeln
-
-- Claude baut nur das, was aus der ADR begründet ableitbar ist
-- Keine zusätzlichen Agenten „zur Sicherheit“
-- Keine Allround-Agenten
-- Tools nur minimal und rollenbezogen
-- Bestehende Struktur bevorzugen vor neuer Komplexität
-- Bei bestehendem Projekt erst lesen, dann schreiben
-- Änderungen an bestehenden Dateien klar benennen
-
----
-
-## Verwendung bestehender Befehle
-
-Wenn die ADR klar genug ist, soll Claude auf den vorhandenen Befehlen aufbauen.
-
-Insbesondere:
-- `/new-agent [rolle] [tools]`
-- `/new-workflow [name] [beschreibung]`
-
-Wenn Claude diese Befehle nicht direkt automatisiert ausführen kann, soll es:
-- die exakten Befehle vorschlagen,
-- die Reihenfolge angeben,
-- anschließend die betroffenen Dateien im Projekt direkt anlegen oder anpassen, soweit der Kontext es erlaubt.
-
-Beispiel:
-
-```bash
-/new-agent reviewer "read_file,run_tests,post_review"
-/new-agent coder "read_file,write_file,run_tests"
-/new-workflow bugfix-review-flow "Analysiert Bug, erstellt Fix, reviewed Ergebnis"
+```
+1. workflows/state.py            → /new-workflow [name] (State-Teil)
+2. agents/[rolle_1].py           → /new-agent [rolle_1] [tools]
+3. agents/[rolle_2].py           → /new-agent [rolle_2] [tools]
+   ... (alle Rollen aus ADR)
+4. workflows/[name]_flow.py      → /new-workflow [name] (Graph-Teil)
+5. workflows/subgraphs/*.py      → falls ADR Subgraphs vorsieht
+6. agents/__init__.py            → alle neuen Rollen eintragen
+7. workflows/__init__.py         → neuen Workflow eintragen
 ```
 
 ---
 
-## Dialog am Anfang
+## Koordinationsregeln
 
-Claude startet diesen Befehl nicht mit einer offenen Frage, sondern mit einem kurzen Prüfmodus:
-
-1. Welche ADR passt zu `[name]`?
-2. Ist sie vollständig genug für den Build?
-3. Handelt es sich um Agent-Erweiterung oder Workflow-Neubau?
-4. Welche Dateien werden jetzt angelegt oder angepasst?
-
-Dann präsentiert Claude kurz den Plan und fragt:
-> Ich habe den Build-Scope aus der ADR abgeleitet. Soll ich jetzt mit dem Anlegen der Dateien beginnen?
-
-Erst nach Zustimmung beginnt der eigentliche Build.
-
----
-
-## Minimaler Output vor dem Build
-
-Vor jeder Ausführung soll Claude kurz zusammenfassen:
-- verwendete ADR-Datei
-- Typ des Vorhabens
-- zu erzeugende Agenten
-- zu erzeugende Workflows
-- betroffene bestehende Dateien
-- mögliche Risiken
+- **Nur bauen was in der ADR steht** – keine Extrapolation, keine Agenten "zur Sicherheit"
+- **Reihenfolge einhalten:** State → Agents → Workflow → Subgraphs
+- **Bei bestehendem Projekt:** `github`-Plugin nutzen um Ist-Zustand zu lesen bevor geschrieben wird
+- **Änderungen an bestehenden Dateien** immer explizit benennen und begründen
+- **Bei Pattern-Unsicherheit während Build:** `mcpdoc` aufrufen
+- **Jede erzeugte Datei entspricht einem Eintrag im Build-Plan der ADR** – keine Abweichung ohne Rückfrage
 
 ---
 
 ## Fehlerfälle
 
-### Keine ADR gefunden
-
-Dann:
-- nicht bauen
-- auf `/design-agents [name]` verweisen
-
-### Mehrere ADR-Dateien gefunden
-
-Dann:
-- Treffer auflisten
-- Nutzer wählen lassen
-- nicht automatisch die neueste nehmen
-
-### ADR zu unklar
-
-Dann:
-- offene Punkte benennen
-- gezielte Rückfragen stellen
-- erst danach weiterbauen
+| Situation | Verhalten |
+|---|---|
+| Keine ADR gefunden | Abbrechen → `/design-agents [name]` |
+| Mehrere ADR gefunden | Auflisten → Nutzer wählen lassen |
+| ADR hat offene Kernfragen | Klären (Dialogregel) → dann bauen |
+| Bestehende Datei würde überschrieben | Explizit warnen → Zustimmung einholen |
+| Pattern unklar | `mcpdoc` aufrufen → dann entscheiden |
 
 ---
 
 ## Abschluss
 
-Nach erfolgreichem Build soll Claude:
-- alle angelegten oder geänderten Dateien benennen,
-- die nächste sinnvolle manuelle Prüfung empfehlen,
-- falls nötig auf weitere gezielte Aufrufe verweisen, z. B. neue Rollen oder Review-Schleifen ergänzen.
+Nach erfolgreichem Build:
+
+```
+Angelegte Dateien:
+  - agents/[rolle_1].py
+  - agents/[rolle_2].py
+  - workflows/state.py
+  - workflows/[name]_flow.py
+
+Angepasste Dateien:
+  - agents/__init__.py
+  - workflows/__init__.py
+
+Empfohlene nächste Schritte:
+  - State-Felder auf Vollständigkeit prüfen
+  - System-Prompts der Agenten schärfen
+  - Ersten manuellen Testlauf starten
+```
+
+Falls weitere Rollen oder Subgraphs später ergänzt werden sollen:
+```bash
+/new-agent [neue-rolle] [tools]
+/new-workflow [subgraph-name] [beschreibung]
+```
