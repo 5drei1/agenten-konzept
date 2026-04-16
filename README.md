@@ -28,7 +28,7 @@ Ein Workflow beschreibt, was passiert. Agenten übernehmen klar abgegrenzte Roll
 | `examples/` | Konkrete Beispiele: Bugfix-Workflow, Angebotsprozess, PII-Gate |
 | `faq/` | Häufige Fragen zu Agenten, Projektwissen, Tools und Wissensablage |
 | `templates/` | Vorlagen für Agenten, Workflows und Projektprofile |
-| `.project_knowlage/` | Komprimierte Arbeitssicht für KI-Agenten |
+| `.project_knowledge/` | Komprimierte Arbeitssicht für KI-Agenten |
 
 ## Wo anfangen?
 
