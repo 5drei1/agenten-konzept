@@ -17,23 +17,65 @@ Für projektspezifisches Wissen wird bevorzugt ein **Knowledge Graph** eingesetz
 - Wissen kann zur Laufzeit dynamisch ergänzt werden, ohne Dateien manuell zu editieren
 - Token-Kosten sinken: statt 2000 Token für ein ganzes Dokument nur ~150 Token für den relevanten Subgraph
 
-**Empfohlenes Tool: Graphiti**
-Graphiti (getzep/graphiti) ist self-hosted, MIT-lizenziert und unterstützt lokale Modelle via Ollama. Es passt damit direkt zur Architekturleitlinie "kein Vendor-Lock-in".
+## Welches Graph-Tool – Graphify oder Graphiti?
+
+Beide Tools sind MIT-lizenziert, self-hosted und unterstützen lokale Modelle. Sie lösen jedoch **unterschiedliche Probleme** und werden nach Ausbaustufe eingesetzt.
+
+### Graphify – Stufe 1 (Minimal, sofort)
+
+Graphify analysiert einen Projektordner (Code, Docs, Bilder, Audio) und baut daraus einen **statischen Knowledge Graph**. Kein Server, keine Datenbank – ein Ordner reicht.
+
+- Ideal für: Architektur, Abhängigkeiten, Coding-Regeln, Dateistruktur
+- Statt eine ganze Codebase in den Prompt zu laden: Agent fragt gezielt nach `PaymentService`
+- Token-Reduktion: bis zu 71,5x gegenüber vollem Kontext-Dumping
+- Zero-Infra: kein Neo4j, kein Vektorspeicher
+
+### Graphiti – Stufe 2+ (Dynamisch, temporal)
+
+Graphiti speichert Fakten mit **Zeitstempel** (`valid_from` / `valid_to`). Wenn Agenten über mehrere Runs hinweg lernen sollen – welche Entscheidungen getroffen wurden, welche Bugs gefixt sind, welche Anforderungen sich geändert haben – ist Graphiti die richtige Wahl.
+
+- Ideal für: wachsendes Laufzeitwissen, Kundenprozesse, langlebige Projekte
+- LangChain/LangGraph-Integration nativ via Callback
+- Braucht eine Graphdatenbank (Neo4j, FalkorDB oder Kuzu)
+
+### Entscheidungshilfe
+
+```mermaid
+flowchart TD
+    Q1["Wissen ändert sich\nüber Zeit?"] 
+    Q1 -->|Nein| GF["Graphify\nStatischer Graph, Zero-Infra"]
+    Q1 -->|Ja| Q2["Viele Runs,\nlanglebiges Projekt?"]
+    Q2 -->|Nein| GF
+    Q2 -->|Ja| GT["Graphiti\nTemporaler Graph, Neo4j/FalkorDB"]
+    Q2 -->|Komplex, beides| GB["Graphify für Struktur\n+ Graphiti für Laufzeitwissen"]
+```
+
+| Ausbaustufe | Tool | Begründung |
+|---|---|---|
+| Stufe 1 – Minimal | Graphify | Zero-Infra, sofort einsetzbar |
+| Stufe 2 – Mittel | Graphiti | Temporale Fakten, dynamisches Wissen |
+| Stufe 3 – Komplex | Graphify + Graphiti | Struktur + Laufzeitwissen kombiniert |
+| Fallback immer | Markdown-Dateien | Für einfache, stabile Projekte |
+
+## Ladeablauf im Workflow
 
 ```mermaid
 flowchart LR
     WF["Workflow\n(load_project_context)"]
-    GR["Knowledge Graph\n(Graphiti, lokal)"]
+    GF["Graphify\n(statischer Graph)"]
+    GT["Graphiti\n(temporaler Graph)"]
     MD["Fallback:\nMarkdown-Dateien"]
     ST["Workflow State"]
 
-    WF -->|"Subgraph-Query: 'PaymentService'"| GR
-    GR -->|"relevante Nodes + Edges"| ST
-    WF -->|"wenn kein Graph vorhanden"| MD
+    WF -->|"Strukturfrage: 'PaymentService'"| GF
+    WF -->|"Laufzeitfrage: 'letzte Entscheidungen'"| GT
+    GF --> ST
+    GT --> ST
+    WF -->|"kein Graph vorhanden"| MD
     MD --> ST
 ```
 
-**Beispiel einer Graph-Abfrage im Workflow:**
+**Beispiel einer Subgraph-Abfrage (Graphify):**
 ```
 Query: Subgraph um 'PaymentService'
 Ergebnis:
@@ -77,7 +119,7 @@ Für einfache, stabile Projekte mit wenigen Entitäten reichen Markdown-Dateien 
 ## Wo dieses Wissen liegen sollte
 
 ### Bevorzugt projektlokal
-Direkt im Projekt oder Kundenrepo, als lokaler Graphiti-Graph oder unter `project-knowledge/`.
+Direkt im Projekt oder Kundenrepo, als lokaler Knowledge Graph (Graphify/Graphiti) oder unter `project-knowledge/`.
 
 ### Zentral nur ergänzend
 Für gemeinsame Sichtweisen, Templates oder Referenzstrukturen kann eine zentrale Ablage zusätzlich sinnvoll sein.
@@ -88,11 +130,12 @@ Das eigentliche Git-Repository bleibt die operative Quelle. Das Projektwissen li
 ## Typischer Ablauf
 1. Workflow erhält `project_id` oder `repo_path`
 2. Workflow prüft: Knowledge Graph vorhanden?
-   - Ja → Subgraph-Query für den relevanten Kontext
+   - Ja (Graphify) → Subgraph-Query für Struktur und Abhängigkeiten
+   - Ja (Graphiti) → Subgraph-Query für aktuelle Fakten und Entscheidungen
    - Nein → Markdown-Fallback aus `project-knowledge/`
 3. Workflow ermittelt relevante Dateien und Regeln
 4. State wird mit Projektkontext gefüllt
 5. Agenten erhalten nur den nötigen Ausschnitt
 
 ## Merksatz
-Projektwissen wird im Workflow injiziert. Agenten erhalten nur den relevanten Teilkontext – bevorzugt als kompakter Subgraph, nicht als ganzes Dokument.
+Projektwissen wird im Workflow injiziert. Graphify liefert die Struktur, Graphiti liefert das Laufzeitgedächtnis, Markdown ist der Fallback.
