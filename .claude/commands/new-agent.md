@@ -20,20 +20,30 @@ Beispiel:
 
 ---
 
+## Dialogregel
+
+> Claude stellt so viele Rückfragen wie nötig – aber jede Frage muss eine Entscheidung im Design verändern.
+> Fragen die keinen Einfluss auf Rolle, Tools oder System-Prompt hätten, werden weggelassen.
+> Fragen die Claude selbst aus dem Kontext ableiten kann, werden nicht gestellt.
+> Ziel ist ein sauber definierter Agent – nicht ein kurzer Dialog.
+
+Nie mehrere Fragen auf einmal stellen. Eine Frage, Antwort abwarten, nächste Frage.
+
+---
+
 ## Wissensquelle
 
 **Wenn aus `/build-agents` aufgerufen:**
-Die Rollen-Definition, Verantwortlichkeit und Tool-Liste kommen aus der ADR-Datei
+Rollen-Definition, Verantwortlichkeit und Tool-Liste kommen aus der ADR-Datei
 (`adr/[name]_[datum].md`, Abschnitt "Architektur").
 Claude liest diese zuerst, bevor Code generiert wird.
 
 **Wenn direkt aufgerufen:**
-Claude fragt kurz:
+Claude klärt so lange bis klar ist:
 - Was ist die genaue Verantwortlichkeit dieser Rolle?
 - Was ist ausdrücklich nicht ihre Aufgabe?
 - In welchen State wird der Agent eingebunden?
-
-Max. 2 Rückfragen, dann wird gebaut.
+- Welche Tools braucht diese Rolle wirklich?
 
 ---
 
@@ -89,7 +99,7 @@ Die neue Rolle wird eingetragen.
 - **Docstrings für alle Tools** – LangChain nutzt sie als Beschreibung fürs LLM
 - **Nur die Tools binden die diese Rolle wirklich braucht**
 - **Bei Pattern-Unsicherheit:** `mcpdoc` für aktuelle LangGraph/LangChain Docs nutzen
-- **`context7` nutzen** wenn Tool-Libraries (Pydantic, httpx, etc.) konkret implementiert werden
+- **`context7` nutzen** wenn Tool-Libraries konkret implementiert werden
 
 ---
 
@@ -106,5 +116,5 @@ agent = create_react_agent(llm, tools=[read_file, run_tests])  # ✓
 SYSTEM_PROMPT = "Das Projekt verwendet FastAPI und..."  # ❌
 
 # RICHTIG: Kontext kommt zur Laufzeit aus dem State
-def node(state: State): ✓  # state["project_context"] enthält das Wissen
+def node(state: State): ...  # state["project_context"] enthält das Wissen  # ✓
 ```

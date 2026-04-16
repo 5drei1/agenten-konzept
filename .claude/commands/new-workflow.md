@@ -20,6 +20,17 @@ Beispiel:
 
 ---
 
+## Dialogregel
+
+> Claude stellt so viele Rückfragen wie nötig – aber jede Frage muss eine Entscheidung im Design verändern.
+> Fragen die keinen Einfluss auf Pattern, State-Felder, Routing oder HITL-Punkte hätten, werden weggelassen.
+> Fragen die Claude selbst aus dem Kontext ableiten kann, werden nicht gestellt.
+> Ziel ist ein sauber definierter Workflow – nicht ein kurzer Dialog.
+
+Nie mehrere Fragen auf einmal stellen. Eine Frage, Antwort abwarten, nächste Frage.
+
+---
+
 ## Wissensquelle
 
 **Wenn aus `/build-agents` aufgerufen:**
@@ -28,12 +39,11 @@ Pattern, State-Felder, Rollen und HITL-Punkte kommen aus der ADR-Datei
 Claude liest diese zuerst.
 
 **Wenn direkt aufgerufen:**
-Claude fragt kurz:
-- Welches Pattern? (Sequential / Fan-Out / Review Loop / Conditional Routing)
+Claude klärt so lange bis klar ist:
+- Welches Pattern passt? (Sequential / Fan-Out / Review Loop / Conditional Routing)
 - Welche Agenten-Rollen sind bereits vorhanden?
-- Gibt es Human-in-the-Loop Punkte?
-
-Max. 2 Rückfragen, dann wird gebaut.
+- Welche State-Felder werden wirklich gebraucht?
+- Gibt es Human-in-the-Loop Punkte, wenn ja wo?
 
 **Bei Pattern-Unsicherheit:** `mcpdoc` für aktuelle LangGraph Docs aufrufen.
 
@@ -124,10 +134,10 @@ Wiederkehrende Teilabläufe als eigene kompilierte Subgraphen.
 ```python
 # FALSCH: State direkt mutieren
 def bad_node(state: State):
-    state["result"] = "x"  # ❌ Mutation
+    state["result"] = "x"  # ❌
     return state
 
-# RICHTIG: Nur geänderte Keys zurückgeben
+# RICHTIG:
 def good_node(state: State):
     return {"result": "x"}  # ✓
 
@@ -141,7 +151,7 @@ app = graph.compile(checkpointer=MemorySaver())  # ✓
 # FALSCH: LLM direkt in Routing
 graph.add_conditional_edges("agent", llm.invoke)  # ❌
 
-# RICHTIG: State-basierte Routing-Funktion
+# RICHTIG:
 def route(state): return "tools" if state["messages"][-1].tool_calls else END
 graph.add_conditional_edges("agent", route)  # ✓
 ```
